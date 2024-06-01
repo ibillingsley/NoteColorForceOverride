@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{4611237F-5A34-41A0-BCE5-A7BEDE3F1EB2}") = "NoteColorForceOverride", "NoteColorForceOverride.csproj", "{2E9FC573-37DE-4C72-827B-BB94F96FF7EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E9FC573-37DE-4C72-827B-BB94F96FF7EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E9FC573-37DE-4C72-827B-BB94F96FF7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E9FC573-37DE-4C72-827B-BB94F96FF7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E9FC573-37DE-4C72-827B-BB94F96FF7EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7BDDB6D0-40BD-402A-A4B8-4F95981199C6}
+	EndGlobalSection
+EndGlobal
