@@ -1,6 +1,8 @@
 ﻿using System;
 using HarmonyLib;
 using SiraUtil.Affinity;
+using IPA.Loader;
+using System.Linq;
 
 namespace NoteColorForceOverride.AffinityPatches
 {
@@ -10,21 +12,16 @@ namespace NoteColorForceOverride.AffinityPatches
 		[AffinityPatch(typeof(ColorsOverrideSettingsPanelController), "HandleOverrideColorsToggleValueChanged")]
 		public void NoteColorTogglePatch(ColorsOverrideSettingsPanelController __instance, bool isOn)
 		{
-			try
-			{
-				var songCoreConfig = Traverse.CreateWithType("SongCore.Plugin").Property("Configuration").GetValue();
-				Traverse.Create(songCoreConfig).Property("CustomSongNoteColors").SetValue(!isOn);
-			}
-			catch (Exception)
-			{ }
+			var songCoreConfig = Traverse.Create(typeof(SongCore.Plugin)).Property("Configuration").GetValue();
+			Traverse.Create(songCoreConfig).Property("CustomSongNoteColors").SetValue(!isOn);
 
-			try
+			var chroma = PluginManager.GetPluginFromId("Chroma");
+			if (chroma != null)
 			{
-				var chromaSetting = Traverse.CreateWithType("Chroma.Settings.ChromaSettableSettings").Property("NoteColoringDisabledSetting").GetValue();
-				Traverse.Create(chromaSetting).Property("Value").SetValue(isOn);
+				var settingsType = chroma.Assembly.GetTypes().First((Type t) => t.Name == "ChromaSettableSettings");
+				var noteColoringDisabledSetting = Traverse.Create(settingsType).Property("NoteColoringDisabledSetting").GetValue();
+				Traverse.Create(noteColoringDisabledSetting).Property("Value").SetValue(isOn);
 			}
-			catch (Exception)
-			{ }
 		}
 	}
 }
