@@ -1,11 +1,14 @@
 ﻿using System;
-using HarmonyLib;
-using SiraUtil.Affinity;
-using IPA.Loader;
+using System.Collections.Generic;
 using System.Linq;
-using SongCore.UI;
-using BeatSaberMarkupLanguage.GameplaySetup;
 using BeatSaberMarkupLanguage.Components.Settings;
+using BeatSaberMarkupLanguage.GameplaySetup;
+using HarmonyLib;
+using IPA.Loader;
+using IPA.Utilities;
+using SiraUtil.Affinity;
+using SongCore.UI;
+using UnityEngine;
 
 namespace NoteColorForceOverride.AffinityPatches
 {
@@ -26,7 +29,7 @@ namespace NoteColorForceOverride.AffinityPatches
 		{
 			// Toggle SongCore setting "Allow Custom Song Note Colors"
 			colorsUI.NoteColors = !isOn;
-			colorsUI.NotifyPropertyChanged("NoteColors"); // Update toggle UI
+			colorsUI.InvokeMethod<object, ColorsUI>("NotifyPropertyChanged", "NoteColors"); // Update toggle UI
 
 			var chroma = PluginManager.GetPluginFromId("Chroma");
 			if (chroma != null)
@@ -37,11 +40,12 @@ namespace NoteColorForceOverride.AffinityPatches
 				Traverse.Create(noteColoringDisabledSetting).Property("Value").SetValue(isOn);
 
 				// Update toggle UI
-				GameplaySetupMenu menu = gameplaySetup.menus.FirstOrDefault(m => m.Name == "Chroma");
+				var menus = Traverse.Create(gameplaySetup).Field("menus").GetValue<IEnumerable<object>>();
+				var menu = menus.FirstOrDefault(m => Traverse.Create(m).Property("Name").GetValue<string>() == "Chroma");
 				if (menu != null)
 				{
-					var toggles = menu.tabObject.GetComponentsInChildren<ToggleSetting>();
-					toggles[2].OnValueChanged(isOn); // Hardcoding this sucks but I don't know a better way to find the right toggle
+					var toggles = Traverse.Create(menu).Field("tabObject").GetValue<GameObject>().GetComponentsInChildren<ToggleSetting>();
+					toggles[2].Value = isOn; // Hardcoding this sucks but I don't know a better way to find the right toggle
 				}
 			}
 		}

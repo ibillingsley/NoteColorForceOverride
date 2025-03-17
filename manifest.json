@@ -3,7 +3,7 @@
 	"id": "NoteColorForceOverride",
 	"name": "NoteColorForceOverride",
 	"author": "iza",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Automatically disable custom note colors from SongCore and Chroma when \"override default colors\" is enabled, and re-enable them when override is disabled",
 	"gameVersion": "1.29.1",
 	"dependsOn": {
